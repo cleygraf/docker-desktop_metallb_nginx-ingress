@@ -68,8 +68,18 @@ https://cafe.example.com:443/coffee/?v=<script>
 ## examples-of-custom-resources/oidc
 https://github.com/nginxinc/kubernetes-ingress/tree/master/examples-of-custom-resources/oidc
 
+### Attention
+In order to use the OICD policy with ingress-controller 1.10, *preview policies* need to be enabled in the nginx-ingress deployment. Please see the included `nginx-plus-ap-ingress.yaml` for details.
+
 ###
-To configure Keycloak, 
+To configure Keycloak, follow steps described in `keycloak_setup.md`. If the variable `SECRET`is `null` please login into [keycloak ui](https://keycloak.example.com), go to "Clients", select "nginx-plus" and go to the tab "Credentials". Copy the value of the field "Secret" and assign it to the variable `SECRET` in the shell:
+
+```
+cleygraf@razor17pro10th {tags/v1.10.1!}  [oidc] $ SECRET="bc75fa28-c8a2-431b-84db-ea9a4acd0627"
+```
+
+Follow the steps in `README.md`, but skip "Step 4".
+
 
 ### URLs
 Keycloak:
