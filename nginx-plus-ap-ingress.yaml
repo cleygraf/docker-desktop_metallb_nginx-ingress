@@ -60,6 +60,8 @@ spec:
           - -default-server-tls-secret=$(POD_NAMESPACE)/default-server-secret
           - -enable-app-protect
           - -nginx-status-allow-cidrs=0.0.0.0/0
+          # Get oidc policy to work in kic 1.10
+          - -enable-preview-policies
          #- -v=3 # Enables extensive logging. Useful for troubleshooting.
          #- -report-ingress-status
          #- -external-service=nginx-ingress
