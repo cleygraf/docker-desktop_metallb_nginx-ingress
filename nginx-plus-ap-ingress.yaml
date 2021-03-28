@@ -18,7 +18,7 @@ spec:
     spec:
       serviceAccountName: nginx-ingress
       containers:
-      - image: localhost:5000/nginx-plus-ap-ingress:1.10.1
+      - image: x1extreme.wn.leyux.org:5000/nginx-plus-ap-ingress:1.10.1
         imagePullPolicy: IfNotPresent
         name: nginx-plus-ap-ingress
         ports:
@@ -59,14 +59,41 @@ spec:
           - -nginx-configmaps=$(POD_NAMESPACE)/nginx-config
           - -default-server-tls-secret=$(POD_NAMESPACE)/default-server-secret
           - -enable-app-protect
+         # Enable nginx+ dashboard
           - -nginx-status-allow-cidrs=0.0.0.0/0
-          # Get oidc policy to work in kic 1.10
+         # Get oidc policy to work in kic 1.10
           - -enable-preview-policies
          #- -v=3 # Enables extensive logging. Useful for troubleshooting.
          #- -report-ingress-status
          #- -external-service=nginx-ingress
          #- -enable-prometheus-metrics
          #- -global-configuration=$(POD_NAMESPACE)/nginx-configuration
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ingress
+  namespace: nginx-ingress
+spec:
+  externalTrafficPolicy: Local
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: dashboard
+  selector:
+    app: nginx-ingress
 
 ---
 
